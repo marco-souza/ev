@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 
+	"github.com/marco-souza/ev/internal/db"
 	"github.com/spf13/cobra"
 )
 
@@ -12,6 +13,12 @@ var initCmd = &cobra.Command{
 	Short: "Initialize a vault",
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("init called")
+
+		// TODO: create .ev folder
+		// TODO: add .ev to .gitignore
+		// TODO: create vault.db (sqlite)
+
+		db.Path()
 	},
 }
 
