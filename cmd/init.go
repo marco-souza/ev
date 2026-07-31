@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"bufio"
 	"errors"
 	"fmt"
 	"os"
@@ -24,7 +25,7 @@ var initCmd = &cobra.Command{
 				panic(err)
 			}
 
-			fmt.Println("vault not found, creating")
+			fmt.Println("creating vault")
 			err := os.Mkdir(homePath, 0o755)
 			if err != nil {
 				panic(err)
@@ -49,7 +50,32 @@ var initCmd = &cobra.Command{
 			panic(fmt.Errorf("'%s/%s' exists as a dir", homePath, vaultFile))
 		}
 
-		fmt.Println("vault initialized")
+		// INFO: append to .gitignore file
+		f, err := os.OpenFile(".gitignore", os.O_CREATE|os.O_RDWR, 0o644)
+		if err != nil {
+			panic(err)
+		}
+		defer f.Close()
+
+		sc := bufio.NewScanner(f)
+		for sc.Scan() {
+			line := sc.Text()
+			fmt.Println(line)
+			if line == homePath {
+				// INFO: skip write if already exits
+				return
+			}
+		}
+
+		if err = sc.Err(); err != nil {
+			panic(err)
+		}
+
+		fmt.Println("appending to .gitignore")
+		_, err = f.WriteString(homePath + "\n")
+		if err != nil {
+			panic(err)
+		}
 	},
 }
 
