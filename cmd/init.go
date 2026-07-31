@@ -1,24 +1,55 @@
 package cmd
 
 import (
+	"errors"
 	"fmt"
+	"os"
+	"path"
 
-	"github.com/marco-souza/ev/internal/db"
 	"github.com/spf13/cobra"
 )
 
 // initCmd represents the init command
 var initCmd = &cobra.Command{
 	Use:   "init",
-	Short: "Initialize a vault",
+	Short: "initialize a vault",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("init called")
+		homePath := ".ev"
+		vaultFile := "vault.db"
 
-		// TODO: create .ev folder
-		// TODO: add .ev to .gitignore
-		// TODO: create vault.db (sqlite)
+		// create .ev folder
+		info, err := os.Stat(homePath)
+		if err != nil {
+			if !errors.Is(err, os.ErrNotExist) {
+				panic(err)
+			}
 
-		db.Path()
+			fmt.Println("vault not found, creating")
+			err := os.Mkdir(homePath, 0o755)
+			if err != nil {
+				panic(err)
+			}
+		}
+
+		if info != nil && !info.IsDir() {
+			panic(fmt.Errorf("'%s' exists as a file", homePath))
+		}
+
+		info, err = os.Stat(path.Join(homePath, vaultFile))
+		if err != nil {
+			if !errors.Is(err, os.ErrNotExist) {
+				panic(err)
+			}
+
+			// TODO: create vault.db (sqlite)
+			fmt.Println("TODO: initializing database")
+		}
+
+		if info != nil && info.IsDir() {
+			panic(fmt.Errorf("'%s/%s' exists as a dir", homePath, vaultFile))
+		}
+
+		fmt.Println("vault initialized")
 	},
 }
 
