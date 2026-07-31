@@ -7,6 +7,7 @@ import (
 	"os"
 	"path"
 
+	"github.com/marco-souza/ev/internal/db"
 	"github.com/spf13/cobra"
 )
 
@@ -42,8 +43,8 @@ var initCmd = &cobra.Command{
 				panic(err)
 			}
 
-			// TODO: create vault.db (sqlite)
-			fmt.Println("TODO: initializing database")
+			// INFO: create vault.db (sqlite)
+			db.InitDb()
 		}
 
 		if info != nil && info.IsDir() {

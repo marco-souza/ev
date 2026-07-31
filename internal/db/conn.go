@@ -1,12 +1,13 @@
 package db
 
 import (
+	"errors"
 	"fmt"
 	"os"
 	"strings"
 )
 
-func Path() (string, error) {
+func getVaultPath() (string, error) {
 	cwd, err := os.Getwd()
 	if err != nil {
 		panic(err)
@@ -16,11 +17,11 @@ func Path() (string, error) {
 	for len(ps) > 0 {
 		evHome := append(ps, ".ev/vault.db")
 		fsPath := strings.Join(evHome, "/")
+		fmt.Println(fsPath)
 
 		if dirExists(fsPath) {
 			return fsPath, nil
 		}
-		fmt.Println(fsPath)
 
 		// go up on the fs tree
 		ps = ps[:len(ps)-1]
@@ -30,6 +31,14 @@ func Path() (string, error) {
 }
 
 func dirExists(dir string) bool {
-	// TODO: implement dir exists
-	return len(dir) == 0
+	info, err := os.Stat(dir)
+	if err != nil {
+		if errors.Is(err, os.ErrNotExist) {
+			return false
+		}
+
+		panic(err)
+	}
+
+	return info.IsDir()
 }
