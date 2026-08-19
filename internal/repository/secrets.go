@@ -18,8 +18,23 @@ type Secret struct {
 	EncryptedValue []byte
 }
 
+func (r *SecretRepository) CreateTable(ctx context.Context) error {
+	query := `CREATE TABLE IF NOT EXISTS secrets (
+		id INTEGER PRIMARY KEY,
+		name TEXT NOT NULL,
+		value TEXT NOT NULL
+	);`
+
+	_, err := r.db.ExecContext(ctx, query)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (r *SecretRepository) GetByName(ctx context.Context, name string) (*Secret, error) {
-	query := "SELECT name, value FROM secrets WHERE name = $1;"
+	query := "SELECT name, value FROM secrets WHERE name = ?;"
 	row := r.db.QueryRowContext(ctx, query, name)
 
 	var secret Secret
@@ -34,7 +49,7 @@ func (r *SecretRepository) Insert(ctx context.Context, name, value string) (*Sec
 	// FIXME: encrypt secret
 	encryptedValue := value
 
-	query := "INSERT INTO secrets (name, value) VALUES ($1, $2) RETURNING *;"
+	query := "INSERT INTO secrets (name, value) VALUES (?, ?) RETURNING *;"
 	row := r.db.QueryRowContext(ctx, query, name, encryptedValue)
 
 	var secret Secret
@@ -67,7 +82,7 @@ func (r *SecretRepository) ListAll(ctx context.Context) (*[]Secret, error) {
 }
 
 func (r *SecretRepository) DeleteByName(ctx context.Context, name string) error {
-	query := "DELETE FROM secrets WHERE name = $1;"
+	query := "DELETE FROM secrets WHERE name = ?;"
 	result, err := r.db.ExecContext(ctx, query, name)
 	if err != nil {
 		return err

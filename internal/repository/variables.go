@@ -18,8 +18,23 @@ type Variable struct {
 	Value string
 }
 
+func (r *VariableRepository) CreateTable(ctx context.Context) error {
+	query := `CREATE TABLE IF NOT EXISTS variables (
+		id INTEGER PRIMARY KEY,
+		name TEXT NOT NULL,
+		value TEXT NOT NULL
+	);`
+
+	_, err := r.db.ExecContext(ctx, query)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (r *VariableRepository) GetByName(ctx context.Context, name string) (*Variable, error) {
-	query := "SELECT name, value FROM variables WHERE name = $1"
+	query := "SELECT name, value FROM variables WHERE name = ?"
 	row := r.db.QueryRowContext(ctx, query, name)
 
 	var variable Variable
@@ -69,7 +84,7 @@ func (r *VariableRepository) ListAll(ctx context.Context) (*[]Variable, error) {
 }
 
 func (r *VariableRepository) DeleteByName(ctx context.Context, name string) error {
-	query := "DELETE FROM variables WHERE name = $1;"
+	query := "DELETE FROM variables WHERE name = ?;"
 	result, err := r.db.ExecContext(ctx, query, name)
 	if err != nil {
 		return err
