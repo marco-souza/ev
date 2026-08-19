@@ -15,6 +15,8 @@ func NewConnection(filepath string) (*sql.DB, error) {
 		return nil, err
 	}
 
+	db.SetMaxOpenConns(1) // SQLite works better with 1 open connection
+
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
