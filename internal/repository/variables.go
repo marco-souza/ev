@@ -1,4 +1,4 @@
-package db
+package repository
 
 import (
 	"context"
@@ -20,9 +20,13 @@ type Variable struct {
 
 func (r *VariableRepository) CreateTable(ctx context.Context) error {
 	query := `CREATE TABLE IF NOT EXISTS variables (
-		id INTEGER PRIMARY KEY,
+		id INTEGER PRIMARY KEY NOT NULL
+			DEFAULT (lower(hex(randomblob(16)))),
+
 		name TEXT NOT NULL,
-		value TEXT NOT NULL
+		value TEXT NOT NULL,
+
+		UNIQUE (name)
 	);`
 
 	_, err := r.db.ExecContext(ctx, query)

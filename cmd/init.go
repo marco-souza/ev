@@ -2,12 +2,10 @@ package cmd
 
 import (
 	"bufio"
-	"errors"
 	"fmt"
 	"os"
-	"path"
 
-	"github.com/marco-souza/ev/internal/db"
+	"github.com/marco-souza/ev/internal/vault"
 	"github.com/spf13/cobra"
 )
 
@@ -16,43 +14,14 @@ var initCmd = &cobra.Command{
 	Use:   "init",
 	Short: "initialize a vault",
 	Run: func(cmd *cobra.Command, args []string) {
-		homePath := ".ev"
-		vaultFile := "vault.db"
-
-		// create .ev folder
-		info, err := os.Stat(homePath)
-		if err != nil {
-			if !errors.Is(err, os.ErrNotExist) {
-				panic(err)
-			}
-
-			fmt.Println("creating vault")
-			err := os.Mkdir(homePath, 0o755)
-			if err != nil {
-				panic(err)
-			}
-		}
-
-		if info != nil && !info.IsDir() {
-			panic(fmt.Errorf("'%s' exists as a file", homePath))
-		}
-
-		info, err = os.Stat(path.Join(homePath, vaultFile))
-		if err != nil {
-			if !errors.Is(err, os.ErrNotExist) {
-				panic(err)
-			}
-
-			// INFO: create vault.db (sqlite)
-			db.InitDb()
-		}
-
-		if info != nil && info.IsDir() {
-			panic(fmt.Errorf("'%s/%s' exists as a dir", homePath, vaultFile))
+		v := vault.NewVault()
+		if err := v.InitDb(); err != nil {
+			panic(err)
 		}
 
 		// INFO: append to .gitignore file
 		f, err := os.OpenFile(".gitignore", os.O_CREATE|os.O_RDWR, 0o644)
+
 		if err != nil {
 			panic(err)
 		}
@@ -62,7 +31,8 @@ var initCmd = &cobra.Command{
 		for sc.Scan() {
 			line := sc.Text()
 			fmt.Println(line)
-			if line == homePath {
+
+			if line == v.Home {
 				// INFO: skip write if already exits
 				return
 			}
@@ -73,7 +43,7 @@ var initCmd = &cobra.Command{
 		}
 
 		fmt.Println("appending to .gitignore")
-		_, err = f.WriteString(homePath + "\n")
+		_, err = f.WriteString(v.Home + "\n")
 		if err != nil {
 			panic(err)
 		}
