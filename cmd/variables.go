@@ -8,9 +8,9 @@ import (
 
 var listVarCmd = &cobra.Command{
 	Use:   "ls",
-	Short: "list all var envs on this vault",
+	Short: "list all variables envs on this vault",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("list var called")
+		fmt.Println("list variables called")
 	},
 }
 
@@ -18,7 +18,7 @@ var setVarCmd = &cobra.Command{
 	Use:   "set <var> <value>",
 	Short: "set an environment variable",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("set var called")
+		fmt.Println("set variables called")
 	},
 }
 
@@ -26,7 +26,7 @@ var getVarCmd = &cobra.Command{
 	Use:   "get <var>",
 	Short: "get environment variable",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("get var called")
+		fmt.Println("get variables called")
 	},
 }
 
@@ -34,13 +34,13 @@ var rmVarCmd = &cobra.Command{
 	Use:   "rm <var>",
 	Short: "remove environment variable",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("rm var called")
+		fmt.Println("rm variables called")
 	},
 }
 
-// varCmd represents the var command
+// varCmd represents the variables command
 var varCmd = &cobra.Command{
-	Use:   "var",
+	Use:   "variables",
 	Short: "variables command",
 }
 
