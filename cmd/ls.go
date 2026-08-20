@@ -12,7 +12,7 @@ import (
 
 var lsCmd = &cobra.Command{
 	Use:   "ls",
-	Short: "ls vault values",
+	Short: "List vault values",
 	Args:  cobra.ExactArgs(0),
 	Run: func(cmd *cobra.Command, args []string) {
 		isSecret, err := cmd.Flags().GetBool("secret")
@@ -59,5 +59,5 @@ var lsCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(lsCmd)
 
-	lsCmd.Flags().BoolP("secret", "s", false, "save as secret")
+	lsCmd.Flags().BoolP("secret", "s", false, "list secret")
 }

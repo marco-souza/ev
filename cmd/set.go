@@ -54,5 +54,5 @@ var setCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(setCmd)
 
-	setCmd.Flags().BoolP("secret", "s", false, "save as secret")
+	setCmd.Flags().BoolP("secret", "s", false, "set secret")
 }

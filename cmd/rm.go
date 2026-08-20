@@ -50,5 +50,5 @@ var rmCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(rmCmd)
 
-	rmCmd.Flags().BoolP("secret", "s", false, "save as secret")
+	rmCmd.Flags().BoolP("secret", "s", false, "remove secret")
 }
