@@ -53,7 +53,7 @@ func (r *SecretRepository) Insert(ctx context.Context, name, value string) (*Sec
 	// FIXME: encrypt secret
 	encryptedValue := value
 
-	query := "INSERT INTO secrets (name, value) VALUES (?, ?) RETURNING *;"
+	query := "INSERT INTO secrets (name, value) VALUES (?, ?) RETURNING name, value;"
 	row := r.db.QueryRowContext(ctx, query, name, encryptedValue)
 
 	var secret Secret

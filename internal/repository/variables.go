@@ -50,7 +50,7 @@ func (r *VariableRepository) GetByName(ctx context.Context, name string) (*Varia
 }
 
 func (r *VariableRepository) Insert(ctx context.Context, name, value string) (*Variable, error) {
-	query := "INSERT INTO variables (name, value) VALUES (?, ?) RETURNING *;"
+	query := "INSERT INTO variables (name, value) VALUES (?, ?) RETURNING name, value;"
 	row := r.db.QueryRowContext(ctx, query, name, value)
 
 	var variable Variable

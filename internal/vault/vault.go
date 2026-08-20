@@ -5,7 +5,6 @@ import (
 	"errors"
 	"fmt"
 	"os"
-	"path/filepath"
 
 	"github.com/marco-souza/ev/internal/db"
 	"github.com/marco-souza/ev/internal/repository"
