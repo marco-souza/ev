@@ -15,7 +15,7 @@ func NewSecretRepository(db *sql.DB) *SecretRepository {
 
 type Secret struct {
 	Name  string
-	Value []byte
+	Value string
 }
 
 func (r *SecretRepository) CreateTable(ctx context.Context) error {
