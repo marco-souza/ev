@@ -12,7 +12,7 @@ import (
 // initCmd represents the init command
 var initCmd = &cobra.Command{
 	Use:   "init",
-	Short: "initialize a vault",
+	Short: "Initialize a vault",
 	Run: func(cmd *cobra.Command, args []string) {
 		v := vault.NewVault()
 		if err := v.InitDb(); err != nil {

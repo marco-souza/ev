@@ -81,6 +81,20 @@ func (v *Vault) InitDb() error {
 	return nil
 }
 
+func (v *Vault) Drop() error {
+	if ok, _ := dirExists(v.Home); ok {
+		fmt.Println("dropping vault")
+
+		if err := os.RemoveAll(v.Home); err != nil {
+			return err
+		}
+
+		return nil
+	}
+
+	return nil
+}
+
 func (v *Vault) ensureHomeExists() (string, error) {
 	filepath := v.DatabaseURI()
 	if ok, _ := dirExists(filepath); ok {

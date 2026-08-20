@@ -29,4 +29,7 @@ ev rm  [NAME]
 ev set -s [NAME] [VALUE]
 ev get -s [NAME]
 ev rm  -s [NAME]
+
+# Drop vault
+ev drop
 ```
