@@ -61,14 +61,14 @@ func (r *VariableRepository) Insert(ctx context.Context, name, value string) (*V
 	return &variable, nil
 }
 
-func (r *VariableRepository) ListAll(ctx context.Context) (*[]Variable, error) {
+func (r *VariableRepository) ListAll(ctx context.Context) ([]*Variable, error) {
 	query := "SELECT name, value FROM variables;"
 	rows, err := r.db.QueryContext(ctx, query)
 	if err != nil {
 		return nil, err
 	}
 
-	var variables []Variable
+	var variables []*Variable
 
 	for rows.Next() {
 		var v Variable
@@ -76,7 +76,7 @@ func (r *VariableRepository) ListAll(ctx context.Context) (*[]Variable, error) {
 			return nil, err
 		}
 
-		variables = append(variables, v)
+		variables = append(variables, &v)
 	}
 
 	// interaction errors
@@ -84,7 +84,7 @@ func (r *VariableRepository) ListAll(ctx context.Context) (*[]Variable, error) {
 		return nil, err
 	}
 
-	return &variables, nil
+	return variables, nil
 }
 
 func (r *VariableRepository) DeleteByName(ctx context.Context, name string) error {

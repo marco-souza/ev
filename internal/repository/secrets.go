@@ -14,8 +14,8 @@ func NewSecretRepository(db *sql.DB) *SecretRepository {
 }
 
 type Secret struct {
-	Name           string
-	EncryptedValue []byte
+	Name  string
+	Value []byte
 }
 
 func (r *SecretRepository) CreateTable(ctx context.Context) error {
@@ -42,7 +42,7 @@ func (r *SecretRepository) GetByName(ctx context.Context, name string) (*Secret,
 	row := r.db.QueryRowContext(ctx, query, name)
 
 	var secret Secret
-	if err := row.Scan(&secret.Name, &secret.EncryptedValue); err != nil {
+	if err := row.Scan(&secret.Name, &secret.Value); err != nil {
 		return nil, err
 	}
 
@@ -57,32 +57,32 @@ func (r *SecretRepository) Insert(ctx context.Context, name, value string) (*Sec
 	row := r.db.QueryRowContext(ctx, query, name, encryptedValue)
 
 	var secret Secret
-	if err := row.Scan(&secret.Name, &secret.EncryptedValue); err != nil {
+	if err := row.Scan(&secret.Name, &secret.Value); err != nil {
 		return nil, err
 	}
 
 	return &secret, nil
 }
 
-func (r *SecretRepository) ListAll(ctx context.Context) (*[]Secret, error) {
-	query := "SELECT name FROM secrets;"
+func (r *SecretRepository) ListAll(ctx context.Context) ([]*Secret, error) {
+	query := "SELECT name, value FROM secrets;"
 	rows, err := r.db.QueryContext(ctx, query)
 	if err != nil {
 		return nil, err
 	}
 
-	var secrets []Secret
+	var secrets []*Secret
 
 	for rows.Next() {
 		var v Secret
-		if err := rows.Scan(&v.Name); err != nil {
+		if err := rows.Scan(&v.Name, &v.Value); err != nil {
 			return nil, err
 		}
 
-		secrets = append(secrets, v)
+		secrets = append(secrets, &v)
 	}
 
-	return &secrets, nil
+	return secrets, nil
 }
 
 func (r *SecretRepository) DeleteByName(ctx context.Context, name string) error {
