@@ -10,7 +10,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// setCmd represents the set command
 var setCmd = &cobra.Command{
 	Use:   "set [name] [value]",
 	Short: "Set a variable name and value",

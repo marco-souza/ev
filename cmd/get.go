@@ -10,7 +10,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// getCmd represents the get command
 var getCmd = &cobra.Command{
 	Use:   "get [name]",
 	Short: "Get a variable value by name",

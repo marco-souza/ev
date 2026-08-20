@@ -10,7 +10,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// setCmd represents the set command
 var lsCmd = &cobra.Command{
 	Use:   "ls",
 	Short: "ls vault values",

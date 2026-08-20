@@ -17,21 +17,16 @@ This project values:
 ## Usage
 
 ```sh replace-with: go run main.go
-$ go run main.go
-A vault for your secrets
+# Initialize project
+ev init
 
-Usage:
-  ev [command]
+# Variables command
+ev set [NAME] [VALUE]
+ev get [NAME]
+ev rm  [NAME]
 
-Available Commands:
-  completion  Generate the autocompletion script for the specified shell
-  help        Help about any command
-  init        initialize a vault
-  sec         secrets command
-  var         variables command
-
-Flags:
-  -h, --help   help for ev
-
-Use "ev [command] --help" for more information about a command.
+# Secrets command
+ev set -s [NAME] [VALUE]
+ev get -s [NAME]
+ev rm  -s [NAME]
 ```
