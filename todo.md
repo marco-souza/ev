@@ -13,6 +13,11 @@
 - [x] `ev get [NAME]`
 - [x] `ev rm [NAME]`
 
+### Encrypt secrets
+
+- [ ] ask encryption password when initializing
+- [ ] encrypt/decrypt secreets to persist based on encryption password (no file saved)
+
 ### Run commands
 
 - [x] `ev run -- [your application start command]` - implement secret expansion
