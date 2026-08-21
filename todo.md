@@ -15,7 +15,7 @@
 
 ### Run commands
 
-- [ ] `ev run -- [your application start command]` - implement secret expantion
+- [x] `ev run -- [your application start command]` - implement secret expantion
 
 ## Minimum Lovable Product
 
@@ -27,4 +27,4 @@
 ### Security hardening
 
 - [ ] ensure we don't log the execution to bash history
-- [ ] remove secrets and variables from output (replace with `*****`)
+- [x] remove secrets and variables from output (replace with `*****`)
