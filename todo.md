@@ -15,9 +15,13 @@
 
 ### Run commands
 
-- [x] `ev run -- [your application start command]` - implement secret expantion
+- [x] `ev run -- [your application start command]` - implement secret expansion
 
 ## Minimum Lovable Product
+
+### Activation
+
+- [ ] `. <(ev activate)` - activate environment injecting secrets and var envs
 
 ### Support Multi environments
 
